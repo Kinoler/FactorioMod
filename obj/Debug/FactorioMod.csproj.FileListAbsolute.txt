@@ -1,0 +1,10 @@
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\bin\Debug\FactorioMod.dll
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\bin\Debug\FactorioMod.pdb
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\bin\Debug\Terraria.exe
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\bin\Debug\Terraria.pdb
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\bin\Debug\Terraria.xml
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\obj\Debug\FactorioMod.csprojAssemblyReference.cache
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\obj\Debug\FactorioMod.csproj.CoreCompileInputs.cache
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\obj\Debug\FactorioMod.csproj.CopyComplete
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\obj\Debug\FactorioMod.dll
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\obj\Debug\FactorioMod.pdb

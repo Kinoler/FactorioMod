@@ -1,0 +1,5 @@
+displayName = Factorio
+author = Kinoler
+version = 0.1
+buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*
+includePDB = true
