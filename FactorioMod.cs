@@ -63,6 +63,7 @@ namespace FactorioMod
         internal void SwichMyUI()
         {
             MyInterface?.SetState(MyInterface?.CurrentState == null ? MyUI : null);
+            Main.item[16].UpdateItem(16);
         }
 
         internal void HideMyUI()

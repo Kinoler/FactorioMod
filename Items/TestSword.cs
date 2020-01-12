@@ -1,3 +1,5 @@
+using FactorioMod.Factorio;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -35,5 +37,11 @@ namespace FactorioMod.Items
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
-	}
+
+        public override void PostUpdate()
+        {
+            base.PostUpdate();
+            Main.item[0].SetNameOverride((FactorioTimer.Instance._time/60).ToString());
+        }
+    }
 }
