@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using FactorioMod.Factorio;
+using FactorioMod.Factorio.Crafting;
 using FactorioMod.UI;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
+using static Terraria.ModLoader.ModContent;
 
 namespace FactorioMod
 {
@@ -11,8 +14,7 @@ namespace FactorioMod
 	{
         public static ModHotKey OpenHotKey;
 
-        internal UserInterface MyInterface;
-        internal TestUI MyUI;
+        internal UserInterface ExamplePersonUserInterface;
 
         public FactorioMod()
         {
@@ -23,10 +25,7 @@ namespace FactorioMod
             OpenHotKey = RegisterHotKey("OpenUI", "Y");
             if (!Main.dedServ)
             {
-                MyInterface = new UserInterface();
-
-                MyUI = new TestUI();
-                MyUI.Activate(); // Activate calls Initialize() on the UIState if not initialized, then calls OnActivate and then calls Activate on every child element
+                ExamplePersonUserInterface = new UserInterface();
             }
         }
 
@@ -35,40 +34,32 @@ namespace FactorioMod
         public override void UpdateUI(GameTime gameTime)
         {
             _lastUpdateUiGameTime = gameTime;
-            if (MyInterface?.CurrentState != null)
-            {
-                MyInterface.Update(gameTime);
-            }
+            ExamplePersonUserInterface?.Update(gameTime);
         }
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
-            if (mouseTextIndex != -1)
+            int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
+            if (inventoryIndex != -1)
             {
-                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-                    "MyMod: MyInterface",
-                    delegate
-                    {
-                        if (_lastUpdateUiGameTime != null && MyInterface?.CurrentState != null)
-                        {
-                            MyInterface.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
-                        }
+                layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
+                    "FactorioMod: Carfting Machine UI",
+                    delegate {
+                        // If the current UIState of the UserInterface is null, nothing will draw. We don't need to track a separate .visible value.
+                        ExamplePersonUserInterface.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
-                    InterfaceScaleType.UI));
+                    InterfaceScaleType.UI)
+                );
             }
+
         }
 
-        internal void SwichMyUI()
+        internal void ShowCarftingMachineUI(CraftingMachineState machine)
         {
-            MyInterface?.SetState(MyInterface?.CurrentState == null ? MyUI : null);
-            Main.item[16].UpdateItem(16);
-        }
-
-        internal void HideMyUI()
-        {
-            MyInterface?.SetState(null);
+            Main.playerInventory = true;
+            Main.npcChatText = "";
+            GetInstance<FactorioMod>().ExamplePersonUserInterface.SetState(ExamplePersonUserInterface?.CurrentState == null ? new CraftingMachineUI(machine) : null);
         }
     }
 }

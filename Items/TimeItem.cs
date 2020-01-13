@@ -16,6 +16,7 @@ namespace FactorioMod.Items
             item.width = 40;
             item.height = 40;
             item.rare = 2;
+            item.maxStack = 99999;
         }
     }
 }

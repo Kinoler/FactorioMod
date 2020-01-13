@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FactorioMod.Factorio
+namespace FactorioMod.Factorio.Helpers
 {
     public class FactorioTimer
     {
@@ -41,7 +41,7 @@ namespace FactorioMod.Factorio
         public void InstanceTick()
         {
             _time++;
-            Update.Invoke();
+            Update?.Invoke();
             if (_alarms.ContainsKey(_time))
             {
                 _alarms[_time].Invoke();

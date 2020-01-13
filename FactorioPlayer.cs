@@ -14,7 +14,6 @@ namespace FactorioMod
         {
             if (FactorioMod.OpenHotKey.JustPressed)
             {
-                _factorioMod.SwichMyUI();
             }
         }
     }

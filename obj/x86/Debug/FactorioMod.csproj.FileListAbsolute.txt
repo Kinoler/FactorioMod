@@ -8,3 +8,4 @@ C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\o
 C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\obj\x86\Debug\FactorioMod.dll
 C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\obj\x86\Debug\FactorioMod.pdb
 C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\obj\x86\Debug\FactorioMod.csprojAssemblyReference.cache
+C:\Users\Kinoler\Documents\My Games\Terraria\ModLoader\Mod Sources\FactorioMod\bin\x86\Debug\ReLogic.dll

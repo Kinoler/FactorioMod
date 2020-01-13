@@ -1,8 +1,9 @@
-﻿using Terraria;
+﻿using System.Collections.Generic;
+using Terraria;
 
 namespace FactorioMod.Factorio.Interfaces
 {
-    public interface IStore
+    public interface IStore : IEnumerable<Item>
     {
         Item[] GetItems();
 

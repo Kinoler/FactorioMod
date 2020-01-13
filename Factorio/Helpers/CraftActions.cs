@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FactorioMod.Factorio.Crafting;
 using FactorioMod.Factorio.Interfaces;
+using FactorioMod.Factorio.Models;
 using Terraria;
 
 namespace FactorioMod.Factorio
 {
     public static class CraftActions
     {
-        public static Dictionary<int, int> ToHasItem(IStore store)
+        public static Dictionary<int, int> ToHasItem(IEnumerable<Item> store)
         {
             Dictionary<int, int> hasItem = new Dictionary<int, int>();
-            foreach (var item in store.GetItems())
+            foreach (var item in store)
             {
                 int itemId = item.netID;
                 if (hasItem.ContainsKey(itemId))
@@ -26,27 +28,28 @@ namespace FactorioMod.Factorio
             return hasItem;
         }
 
-        public static bool CanBeCraft(IStore store, FactorioRecipe recipe) =>
+        public static bool CanBeCraft(IEnumerable<Item> store, FactorioRecipe recipe) =>
             recipe.RequiredItems?.All(el =>
                 (el.type == 0 || ToHasItem(store).TryGetValue(el.netID, out int val) && val >= el.stack)) ??
             false;
 
-        public static bool Craft(IStore store, FactorioRecipe recipe)
+        public static bool CreatedItemMaxStack(Item item) => item != null && (item.type == 0 || item.stack < item.maxStack);
+
+        public static bool Craft(CraftingMachineState machine, FactorioRecipe recipe)
         {
-            if (!CanBeCraft(store, recipe))
+            if (!CanBeCraft(machine.Inventory, recipe) || !CreatedItemMaxStack(machine.CreatedItem))
                 return false;
 
-            SpendIngredients(store, recipe);
+            SpendIngredients(machine.Inventory, recipe);
             return true;
         }
 
-        public static void SpendIngredients(IStore store, FactorioRecipe recipe)
+        public static void SpendIngredients(IEnumerable<Item> store, FactorioRecipe recipe)
         {
             foreach (var requiredItems in recipe.RequiredItems)
             {
                 int requiredStack = requiredItems.stack;
-                int inventoryIndex = 0;
-                foreach (var storedItem in store.GetItems())
+                foreach (var storedItem in store)
                 {
                     if (!storedItem.IsTheSameAs(requiredItems))
                         continue;
@@ -59,14 +62,13 @@ namespace FactorioMod.Factorio
                     else
                     {
                         requiredStack -= storedItem.stack;
-                        store.SetItem(inventoryIndex, new Item());
+                        storedItem.stack = 0;
+                        //store.SetItem(inventoryIndex, new Item());
                     }
-
-                    inventoryIndex++;
                 }
             }
         }
 
-        public static int CalculateCraftTime(double craftingSpeed, FactorioRecipe recipe) => (int)(recipe.EnergyRequired / craftingSpeed * 1000);
+        public static int CalculateCraftTime(double craftingSpeed, FactorioRecipe recipe) => (int) (recipe.EnergyRequired / craftingSpeed * 1000);
     }
 }

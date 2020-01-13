@@ -49,6 +49,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ReLogic">
+      <HintPath>..\..\references\ReLogic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -68,34 +71,39 @@
     <Compile Include="FactorioMod.cs" />
     <Compile Include="FactorioPlayer.cs" />
     <Compile Include="FactorioWorld.cs" />
-    <Compile Include="Factorio\CraftActions.cs" />
-    <Compile Include="Factorio\Energy.cs" />
-    <Compile Include="Factorio\EnergySource.cs" />
-    <Compile Include="Factorio\Entity.cs" />
-    <Compile Include="Factorio\FactorioRecipe.cs" />
-    <Compile Include="Factorio\FactorioTimer.cs" />
+    <Compile Include="Factorio\Crafting\AssemblingMachine\AssemblingMachineState.cs" />
+    <Compile Include="Factorio\Crafting\Furnace\FurnaceState.cs" />
+    <Compile Include="Factorio\Helpers\CraftActions.cs" />
+    <Compile Include="Factorio\Helpers\FactoryHelper.cs" />
+    <Compile Include="Factorio\Models\Energy.cs" />
+    <Compile Include="Factorio\Models\EnergySource.cs" />
+    <Compile Include="Tiles\Placeable\CraftingMachine\Furnace\Furnace.cs" />
+    <Compile Include="Tiles\Placeable\Entity.cs" />
+    <Compile Include="Factorio\Models\FactorioRecipe.cs" />
+    <Compile Include="Factorio\Helpers\FactorioTimer.cs" />
     <Compile Include="Factorio\Interfaces\IStore.cs" />
-    <Compile Include="Factorio\MachineBase.cs" />
-    <Compile Include="Factorio\MachineCraftTimer.cs" />
-    <Compile Include="Factorio\MachineInventory.cs" />
+    <Compile Include="Factorio\Crafting\CraftingMachineState.cs" />
+    <Compile Include="Factorio\Models\MachineInventory.cs" />
     <Compile Include="Items\IntermediateProducts\IronGearWheelItem.cs" />
     <Compile Include="Items\IntermediateProducts\IronPlate.cs" />
-    <Compile Include="Items\Placeable\CraftingMachine.cs" />
+    <Compile Include="Tiles\Placeable\CraftingMachine\AssemblingMachine\AssemblingMachine.cs" />
+    <Compile Include="Tiles\Placeable\CraftingMachine\AssemblingMachine\Machines\AssemblingMachineFirst.cs" />
+    <Compile Include="Tiles\Placeable\CraftingMachine\CraftingMachine.cs" />
     <Compile Include="Items\Placeable\TestMachine.cs" />
     <Compile Include="Items\TestSword.cs" />
     <Compile Include="Items\TimeItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tiles\TestMachine.cs" />
-    <Compile Include="UI\ExamplePersonUI.cs" />
-    <Compile Include="UI\ExampleUI.cs" />
-    <Compile Include="UI\TestUI.cs" />
-    <Compile Include="UI\VanillaItemSlotWrapper.cs" />
+    <Compile Include="UI\CraftingMachineUI.cs" />
+    <Compile Include="UI\CraftingMachineItemSlot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tiles\TestMachine.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Factorio\Another\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"E:\Games\SteamLibrary\steamapps\common\Terraria\tModLoaderServer.exe" -build "$(ProjectDir)\" -eac "$(TargetPath)"</PostBuildEvent>

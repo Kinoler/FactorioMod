@@ -1,4 +1,5 @@
 using FactorioMod.Factorio;
+using FactorioMod.Factorio.Helpers;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

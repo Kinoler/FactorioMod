@@ -1,11 +1,9 @@
-﻿using Terraria.ID;
+﻿using FactorioMod.Tiles.Placeable.CraftingMachine.AssemblingMachine.Machines;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace FactorioMod.Items.Placeable
 {
-    public class TestMachine
-        : ModItem
+    public class TestMachine : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +22,7 @@ namespace FactorioMod.Items.Placeable
             item.useStyle = 1;
             item.consumable = true;
             item.value = 2000;
-            item.createTile = TileType<Tiles.TestMachine>();
+            item.createTile = ModContent.TileType<AssemblingMachineFirst>();
         }
 
         public override void AddRecipes()
