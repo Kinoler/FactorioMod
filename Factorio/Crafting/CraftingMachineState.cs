@@ -1,4 +1,5 @@
-﻿using FactorioMod.Factorio.Helpers;
+﻿using System;
+using FactorioMod.Factorio.Helpers;
 using FactorioMod.Factorio.Models;
 using Terraria;
 
@@ -6,89 +7,79 @@ namespace FactorioMod.Factorio.Crafting
 {
     public abstract class CraftingMachineState
     {
+        public event CraftingMachineStateEvent OnCraftBegin;
+        public event CraftingMachineStateEvent OnCraftEnd;
+
         private readonly double _craftingSpeed;
         private EnergySource _energy_source;
         private Energy _energy_usage;
+        private Func<double> _precentage;
+        private Recipe[] _availableRecipe;
 
-        private bool craftStarted;
-        private ulong eventTime;
 
-        public AssemblingInventory Inventory { get; }
+        public bool CraftStarted { get; private set; }
+
+        public double Precentage => _precentage.Invoke();
+
+        public Inventory Ingredients { get; }
+
         public Item CreatedItem { get; set; }
+
         public FactorioRecipe Recipe { get; }
 
-        public delegate void CreatedItemChanged(CraftingMachineState machine);
-        public event CreatedItemChanged onCreatedItemChanged;
+        public Recipe[] AvailableRecipe => _availableRecipe ?? (_availableRecipe = GetAvailableRecipes());
 
-        public CraftingMachineState(double power)
+        public delegate void CraftingMachineStateEvent(CraftingMachineState machine);
+
+        protected CraftingMachineState(double craftingSpeed)
         {
-            Inventory = new AssemblingInventory();
-            //Inventory.PropertyChanged += ItemsUpdated;
+            Ingredients = new Inventory();
             Recipe = new FactorioRecipe();
-            _craftingSpeed = power;
+            _craftingSpeed = craftingSpeed;
         }
 
-        public Item ItemsUpdated(Item item, int index)
+        public Item IngredientsUpdated(Item item, int index)
         {
-            if (index < 0 || index >= Inventory.Items.Length)
+            if (index < 0 || index >= Ingredients.Items.Length)
                 return new Item();
 
-            Inventory.Items[index] = item;
+            Ingredients.Items[index] = item;
 
-            TryCreate();
-            return Inventory.Items[index];
+            TryCraftItem();
+            return Ingredients.Items[index];
 
         }
 
         public Item CreatedItemUpdated(Item item)
         {
             CreatedItem = item;
-            TryCreate();
+            TryCraftItem();
             return CreatedItem;
-        }
-
-        private void TryCreate()
-        {
-            if (!craftStarted && CraftActions.Craft(this, Recipe))
-            {
-                craftStarted = true;
-
-                eventTime = FactorioTimer.SubscribeAlarm(CraftActions.CalculateCraftTime(_craftingSpeed, Recipe), CraftItem);
-            }
         }
 
         public void CraftItem()
         {
-            craftStarted = false;
+            CraftStarted = false;
             if (CreatedItem.type == 0)
             {
                 CreatedItem = Recipe.CreateItem.Clone();
                 CreatedItem.stack = 0;
             }
             CreatedItem.stack += Recipe.CreateItem.stack;
-            onCreatedItemChanged?.Invoke(this);
-            TryCreate();
+            OnCraftEnd?.Invoke(this);
+            TryCraftItem();
         }
 
-        public void SelectRecipe(Recipe recipe)
+        private void TryCraftItem()
         {
-            Recipe.SetRecipe(recipe);
-            Inventory.CloneFrom(Recipe.RequiredItems);
-
-            CreatedItem = Recipe.CreateItem.Clone();
-            CreatedItem.stack = 0;
+            if (!CraftStarted && CraftActions.Craft(this, Recipe))
+            {
+                CraftStarted = true;
+                _precentage = FactorioTimer.SubscribeAction(CraftActions.CalculateCraftTime(_craftingSpeed, Recipe), CraftItem);
+                OnCraftBegin?.Invoke(this);
+            }
         }
 
-        public void SelectRecipe(int recipeId)
-        {
-            SelectRecipe(Main.recipe[recipeId]);
-        }
-
-        public void ResetRecipe(int recipeId)
-        {
-            Recipe.ResetRecipe();
-            Inventory.Clear();
-            CreatedItem = null;
-        }
+        protected abstract Recipe[] GetAvailableRecipes();
     }
 }

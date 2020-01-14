@@ -13,15 +13,17 @@ namespace FactorioMod.Factorio.Models
 
         public Item CreateItem => Recipe?.createItem;
 
-        public Item[] RecipeRequiredItems => Recipe?.requiredItem.Where(el => el.type != 0).ToArray();
+        public Item[] RecipeIngredients => Recipe?.requiredItem.Where(el => el.type != 0).ToArray();
 
-        public Item[] RequiredItems => RecipeRequiredItems?.Where(el => el.type != ModContent.ItemType<TimeItem>()).ToArray();
+        public Item[] Ingredients => RecipeIngredients?.Where(el => el.type != ModContent.ItemType<TimeItem>()).ToArray();
 
-        public double EnergyRequired => ((double)(RecipeRequiredItems?.FirstOrDefault(el => el.type == ModContent.ItemType<TimeItem>())?.stack ?? 1000)) / 1000;
+        public double EnergyRequired => ((double)(RecipeIngredients?.FirstOrDefault(el => el.type == ModContent.ItemType<TimeItem>())?.stack ?? 1000)) / 1000;
+
+        public bool IsRecipeSet => Recipe != null;
 
         public void SetRecipe(Recipe recipe)
         {
-            if (Recipe != null)
+            if (IsRecipeSet)
                 ResetRecipe();
 
             Recipe = recipe;

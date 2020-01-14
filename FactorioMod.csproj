@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -75,15 +77,17 @@
     <Compile Include="Factorio\Crafting\Furnace\FurnaceState.cs" />
     <Compile Include="Factorio\Helpers\CraftActions.cs" />
     <Compile Include="Factorio\Helpers\FactoryHelper.cs" />
+    <Compile Include="Factorio\Helpers\RecipeHelper.cs" />
     <Compile Include="Factorio\Models\Energy.cs" />
     <Compile Include="Factorio\Models\EnergySource.cs" />
+    <Compile Include="Factorio\Models\SimpleItemRepresentation.cs" />
     <Compile Include="Tiles\Placeable\CraftingMachine\Furnace\Furnace.cs" />
     <Compile Include="Tiles\Placeable\Entity.cs" />
     <Compile Include="Factorio\Models\FactorioRecipe.cs" />
     <Compile Include="Factorio\Helpers\FactorioTimer.cs" />
     <Compile Include="Factorio\Interfaces\IStore.cs" />
     <Compile Include="Factorio\Crafting\CraftingMachineState.cs" />
-    <Compile Include="Factorio\Models\MachineInventory.cs" />
+    <Compile Include="Factorio\Models\Inventory.cs" />
     <Compile Include="Items\IntermediateProducts\IronGearWheelItem.cs" />
     <Compile Include="Items\IntermediateProducts\IronPlate.cs" />
     <Compile Include="Tiles\Placeable\CraftingMachine\AssemblingMachine\AssemblingMachine.cs" />
@@ -95,8 +99,10 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tiles\TestMachine.cs" />
-    <Compile Include="UI\CraftingMachineUI.cs" />
+    <Compile Include="UI\CraftingMachineUI\CraftingMachineUI.cs" />
     <Compile Include="UI\CraftingMachineItemSlot.cs" />
+    <Compile Include="UI\CraftingMachineUI\AssemblingMachineUI.cs" />
+    <Compile Include="UI\CraftingMachineUI\FutnaceUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tiles\TestMachine.png" />

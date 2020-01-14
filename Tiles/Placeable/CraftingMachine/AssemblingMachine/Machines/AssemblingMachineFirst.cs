@@ -7,7 +7,7 @@
             base.SetDefaults();
 
             BaseCraftingSpeed = 2;
-            _ingridientCountLimit = 1;
+            IngridientCountLimit = 1;
         }
 
         public override bool Autoload(ref string name, ref string texture)

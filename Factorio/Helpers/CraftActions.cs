@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FactorioMod.Factorio.Crafting;
-using FactorioMod.Factorio.Interfaces;
 using FactorioMod.Factorio.Models;
 using Terraria;
 
-namespace FactorioMod.Factorio
+namespace FactorioMod.Factorio.Helpers
 {
     public static class CraftActions
     {
@@ -29,7 +28,7 @@ namespace FactorioMod.Factorio
         }
 
         public static bool CanBeCraft(IEnumerable<Item> store, FactorioRecipe recipe) =>
-            recipe.RequiredItems?.All(el =>
+            recipe.Ingredients?.All(el =>
                 (el.type == 0 || ToHasItem(store).TryGetValue(el.netID, out int val) && val >= el.stack)) ??
             false;
 
@@ -37,16 +36,16 @@ namespace FactorioMod.Factorio
 
         public static bool Craft(CraftingMachineState machine, FactorioRecipe recipe)
         {
-            if (!CanBeCraft(machine.Inventory, recipe) || !CreatedItemMaxStack(machine.CreatedItem))
+            if (!CanBeCraft(machine.Ingredients, recipe) || !CreatedItemMaxStack(machine.CreatedItem))
                 return false;
 
-            SpendIngredients(machine.Inventory, recipe);
+            SpendIngredients(machine.Ingredients, recipe);
             return true;
         }
 
         public static void SpendIngredients(IEnumerable<Item> store, FactorioRecipe recipe)
         {
-            foreach (var requiredItems in recipe.RequiredItems)
+            foreach (var requiredItems in recipe.Ingredients)
             {
                 int requiredStack = requiredItems.stack;
                 foreach (var storedItem in store)

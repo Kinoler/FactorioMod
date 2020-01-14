@@ -6,7 +6,7 @@ using Terraria;
 
 namespace FactorioMod.Factorio.Models
 {
-    public class AssemblingInventory : IEnumerable<Item>
+    public class Inventory : IEnumerable<Item>
     {
         public Item[] Items { get; set; }
         public int Count => Items.Length;

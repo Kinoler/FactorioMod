@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using FactorioMod.Factorio;
 using FactorioMod.Factorio.Crafting;
 using FactorioMod.UI;
+using FactorioMod.UI.CraftingMachineUI;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
