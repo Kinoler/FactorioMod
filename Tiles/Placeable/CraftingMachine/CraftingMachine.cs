@@ -11,7 +11,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace FactorioMod.Tiles.Placeable.CraftingMachine
 {
-    public class CraftingMachine : Entity
+    public abstract class CraftingMachine : Entity
     {
         private readonly Dictionary<Vector2, CraftingMachineState> _machines;
 
@@ -52,17 +52,6 @@ namespace FactorioMod.Tiles.Placeable.CraftingMachine
 
         public override bool NewRightClick(int i, int j)
         {
-            if (_machines[new Vector2(i, j)].Recipe.Recipe == null)
-            {
-                RecipeFinder finder = new RecipeFinder();
-                finder.SetResult(ModContent.ItemType<Items.IntermediateProducts.IronGearWheelItem>());
-                Recipe recipe2 = finder.SearchRecipes().First();
-                if (recipe2 != null)
-                {
-                    _machines[new Vector2(i, j)].SelectRecipe(recipe2);
-                }
-            }
-
             GetInstance<FactorioMod>().ShowCarftingMachineUI(_machines[new Vector2(i, j)]);
             return true;
         }

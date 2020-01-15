@@ -8,7 +8,7 @@ using Terraria.UI;
 
 namespace FactorioMod.UI
 {
-    internal class CraftingMachineItemSlot : UIElement
+    public class CraftingMachineItemSlot : UIElement
     {
         private const int Context = ItemSlot.Context.BankItem;
         private const float Scale = 1f;

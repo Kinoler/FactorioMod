@@ -1,56 +1,71 @@
-﻿using FactorioMod.Factorio.Crafting;
+﻿using System;
+using FactorioMod.Factorio.Crafting;
+using FactorioMod.Factorio.Crafting.AssemblingMachine;
+using FactorioMod.Factorio.Crafting.Furnace;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI;
 
 namespace FactorioMod.UI.CraftingMachineUI
 {
-    internal class CraftingMachineUI : UIState
+    public class CraftingMachineUI<TCraftingMachine> : UIState where TCraftingMachine: CraftingMachineState
     {
-        private readonly CraftingMachineState _machine;
-        private CraftingMachineItemSlot[] _reqItemSlot;
-        private CraftingMachineItemSlot _craftItemSlot;
+        protected readonly TCraftingMachine _machine;
+        protected CraftingMachineItemSlot[] _reqItemSlot;
+        protected CraftingMachineItemSlot _craftItemSlot;
 
-        public CraftingMachineUI(CraftingMachineState machine)
+        protected int _leftWindow = 50;
+        protected int _topWindow = 270;
+
+        public CraftingMachineUI(TCraftingMachine machine)
         {
             this._machine = machine;
-            machine.OnCraftEnd += MachineOnCraftEnd;
-        }
-
-        private void MachineOnCraftEnd(CraftingMachineState machine)
-        {
-            _craftItemSlot.Item = machine.CreatedItem;
         }
 
         public override void OnInitialize()
         {
-            int left = 50;
             int reqLength = _machine.Recipe.Ingredients.Length;
             _reqItemSlot = new CraftingMachineItemSlot[reqLength];
-            for (int i = 0; i < reqLength; i++)
-            {
-                int scopedIndex = i;
-                int type = _machine.Recipe.Ingredients[i].type;
-                _reqItemSlot[i] = new CraftingMachineItemSlot()
-                {
-                    Item = _machine.Ingredients[i],
-                    Left = {Pixels = left + 50 * i},
-                    Top = {Pixels = 270},
-                    ValidItemFunc = item => item.IsAir || !item.IsAir && item.type == type,
-                    OnSlotChange = item => _machine.IngredientsUpdated(item, scopedIndex)
-                };
-                Append(_reqItemSlot[i]);
-            }
+        }
 
-            _craftItemSlot = new CraftingMachineItemSlot()
+        public CraftingMachineItemSlot CreateSlot(int left, int top, Func<Item> itemFunc, Func<Item, Item> onSlotChangeFunc, bool canTake = true)
+        {
+            CraftingMachineItemSlot itemSlot = new CraftingMachineItemSlot()
             {
-                Item = _machine.CreatedItem,
-                Left = {Pixels = left + 50 * reqLength},
-                Top = {Pixels = 300},
-                ValidItemFunc = item => item.IsAir || !item.IsAir && item.type == _machine.Recipe.CreateItem.type,
-                OnSlotChange = item => _machine.CreatedItemUpdated(item)
+                Item = itemFunc.Invoke(),
+                Left = { Pixels = _leftWindow + left },
+                Top = { Pixels = _topWindow + top },
+                ValidItemFunc = item =>
+                {
+                    return item.IsAir == canTake == true || item.type == itemFunc.Invoke().type;
+                },
+                OnSlotChange = onSlotChangeFunc
             };
-            Append(_craftItemSlot);
+            Append(itemSlot);
+            return itemSlot;
+        }
+
+        public void CreateIngredientsSlot(int left, int top, int index)
+        {
+            int scopedIndex = index;
+            var createIngredientItemSlot = CreateSlot(
+                left, 
+                top, 
+                () => _machine.Ingredients[scopedIndex],
+                item => _machine.UpdateIngredient(item, scopedIndex));
+
+            Append(createIngredientItemSlot);
+        }
+
+        public void CreateResultSlot(int left, int top)
+        {
+            var createResultItemSlot = CreateSlot(
+                left,
+                top,
+                () => _machine.CreatedItem,
+                item => _machine.UpdateCreatedItem(item));
+
+            Append(createResultItemSlot);
         }
 
 		protected override void DrawSelf(SpriteBatch spriteBatch) {

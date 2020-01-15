@@ -8,7 +8,7 @@ namespace FactorioMod.Factorio.Helpers
 {
     public static class CraftActions
     {
-        public static Dictionary<int, int> ToHasItem(IEnumerable<Item> store)
+        public static Dictionary<int, int> ToCountEachItem(IEnumerable<Item> store)
         {
             Dictionary<int, int> hasItem = new Dictionary<int, int>();
             foreach (var item in store)
@@ -29,7 +29,7 @@ namespace FactorioMod.Factorio.Helpers
 
         public static bool CanBeCraft(IEnumerable<Item> store, FactorioRecipe recipe) =>
             recipe.Ingredients?.All(el =>
-                (el.type == 0 || ToHasItem(store).TryGetValue(el.netID, out int val) && val >= el.stack)) ??
+                (el.type == 0 || ToCountEachItem(store).TryGetValue(el.netID, out int val) && val >= el.stack)) ??
             false;
 
         public static bool CreatedItemMaxStack(Item item) => item != null && (item.type == 0 || item.stack < item.maxStack);

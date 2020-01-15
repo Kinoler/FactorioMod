@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using FactorioMod.Factorio;
 using FactorioMod.Factorio.Crafting;
+using FactorioMod.Factorio.Crafting.AssemblingMachine;
+using FactorioMod.Factorio.Crafting.Furnace;
 using FactorioMod.UI;
 using FactorioMod.UI.CraftingMachineUI;
 using Microsoft.Xna.Framework;
@@ -60,7 +62,21 @@ namespace FactorioMod
         {
             Main.playerInventory = true;
             Main.npcChatText = "";
-            GetInstance<FactorioMod>().ExamplePersonUserInterface.SetState(ExamplePersonUserInterface?.CurrentState == null ? new CraftingMachineUI(machine) : null);
+
+            switch (machine)
+            {
+                case AssemblingMachineState assemblingMachineState:
+                    SetUserInterfaceState(new AssemblingMachineUI(assemblingMachineState));
+                    break;
+                case FurnaceState furnaceState:
+                    SetUserInterfaceState(new FurnaceUI(furnaceState));
+                    break;
+            }
+        }
+
+        void SetUserInterfaceState(UIState newState)
+        {
+            GetInstance<FactorioMod>().ExamplePersonUserInterface.SetState(ExamplePersonUserInterface?.CurrentState == null ? newState : null);
         }
     }
 }

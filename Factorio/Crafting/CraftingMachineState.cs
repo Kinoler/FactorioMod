@@ -38,21 +38,33 @@ namespace FactorioMod.Factorio.Crafting
             _craftingSpeed = craftingSpeed;
         }
 
-        public Item IngredientsUpdated(Item item, int index)
+        public Item UpdateIngredient(Item item, int index)
         {
-            if (index < 0 || index >= Ingredients.Items.Length)
-                return new Item();
+            if (index < 0 || index >= Ingredients.Count)
+                return null;
 
-            Ingredients.Items[index] = item;
+            Ingredients[index] = item;
+
+            if (Ingredients[index].type == 0)
+            {
+                Ingredients[index] = Recipe.Ingredients[index].Clone();
+                Ingredients[index].stack = 0;
+            }
 
             TryCraftItem();
-            return Ingredients.Items[index];
+            return Ingredients[index];
 
         }
 
-        public Item CreatedItemUpdated(Item item)
+        public Item UpdateCreatedItem(Item item)
         {
             CreatedItem = item;
+            if (CreatedItem.type == 0)
+            {
+                CreatedItem = Recipe.CreateItem.Clone();
+                CreatedItem.stack = 0;
+            }
+
             TryCraftItem();
             return CreatedItem;
         }
@@ -60,13 +72,12 @@ namespace FactorioMod.Factorio.Crafting
         public void CraftItem()
         {
             CraftStarted = false;
-            if (CreatedItem.type == 0)
-            {
-                CreatedItem = Recipe.CreateItem.Clone();
-                CreatedItem.stack = 0;
-            }
             CreatedItem.stack += Recipe.CreateItem.stack;
-            OnCraftEnd?.Invoke(this);
+            if (OnCraftEnd != null)
+            {
+                OnCraftEnd?.Invoke(this);
+            }
+
             TryCraftItem();
         }
 
@@ -76,7 +87,10 @@ namespace FactorioMod.Factorio.Crafting
             {
                 CraftStarted = true;
                 _precentage = FactorioTimer.SubscribeAction(CraftActions.CalculateCraftTime(_craftingSpeed, Recipe), CraftItem);
-                OnCraftBegin?.Invoke(this);
+                if (OnCraftBegin != null)
+                {
+                    OnCraftBegin?.Invoke(this);
+                }
             }
         }
 

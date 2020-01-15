@@ -19,11 +19,11 @@ namespace FactorioMod.Factorio.Models
 
         public double EnergyRequired => ((double)(RecipeIngredients?.FirstOrDefault(el => el.type == ModContent.ItemType<TimeItem>())?.stack ?? 1000)) / 1000;
 
-        public bool IsRecipeSet => Recipe != null;
+        public bool IsRecipeEmpty => Recipe == null;
 
         public void SetRecipe(Recipe recipe)
         {
-            if (IsRecipeSet)
+            if (!IsRecipeEmpty)
                 ResetRecipe();
 
             Recipe = recipe;

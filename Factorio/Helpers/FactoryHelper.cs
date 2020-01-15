@@ -13,10 +13,10 @@ namespace FactorioMod.Factorio.Helpers
         {
             switch (machine)
             {
-                case AssemblingMachine _:
-                    return new AssemblingMachineState(machine.BaseCraftingSpeed);
-                case Furnace _:
-                    return new FurnaceState(machine.BaseCraftingSpeed);
+                case AssemblingMachine assemblingMachine:
+                    return new AssemblingMachineState(assemblingMachine.BaseCraftingSpeed, assemblingMachine.IngridientCountLimit);
+                case Furnace furnace:
+                    return new FurnaceState(furnace.BaseCraftingSpeed);
                 default:
                     return null;
             }

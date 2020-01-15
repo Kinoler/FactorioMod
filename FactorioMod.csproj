@@ -102,7 +102,7 @@
     <Compile Include="UI\CraftingMachineUI\CraftingMachineUI.cs" />
     <Compile Include="UI\CraftingMachineItemSlot.cs" />
     <Compile Include="UI\CraftingMachineUI\AssemblingMachineUI.cs" />
-    <Compile Include="UI\CraftingMachineUI\FutnaceUI.cs" />
+    <Compile Include="UI\CraftingMachineUI\FurnaceUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tiles\TestMachine.png" />

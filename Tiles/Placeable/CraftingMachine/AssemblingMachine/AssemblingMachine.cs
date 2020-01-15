@@ -2,6 +2,6 @@
 {
     public class AssemblingMachine : CraftingMachine
     {
-        public byte IngridientCountLimit = 1;
+        public byte IngridientCountLimit { get; set; } = 1;
     }
 }
