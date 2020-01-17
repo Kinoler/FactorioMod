@@ -77,10 +77,13 @@
     <Compile Include="Factorio\Crafting\Furnace\FurnaceState.cs" />
     <Compile Include="Factorio\Helpers\CraftActions.cs" />
     <Compile Include="Factorio\Helpers\FactoryHelper.cs" />
+    <Compile Include="Factorio\Helpers\LocationHelper.cs" />
     <Compile Include="Factorio\Helpers\RecipeHelper.cs" />
     <Compile Include="Factorio\Models\Energy.cs" />
     <Compile Include="Factorio\Models\EnergySource.cs" />
+    <Compile Include="Factorio\Models\Pipe.cs" />
     <Compile Include="Factorio\Models\SimpleItemRepresentation.cs" />
+    <Compile Include="Factorio\Temp\PipeManager.cs" />
     <Compile Include="Tiles\Placeable\CraftingMachine\Furnace\Furnace.cs" />
     <Compile Include="Tiles\Placeable\Entity.cs" />
     <Compile Include="Factorio\Models\FactorioRecipe.cs" />
