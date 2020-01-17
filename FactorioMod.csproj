@@ -98,6 +98,8 @@
     <Compile Include="Items\TimeItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tiles\Placeable\TransportBeltConnectable\TransportBeltConnectable.cs" />
+    <Compile Include="Tiles\Placeable\TransportBeltConnectable\TransportBelt\TransportBelt.cs" />
     <Compile Include="Tiles\TestMachine.cs" />
     <Compile Include="UI\CraftingMachineUI\CraftingMachineUI.cs" />
     <Compile Include="UI\CraftingMachineItemSlot.cs" />
@@ -109,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Factorio\Another\" />
+    <Folder Include="UI\SelectRecipeUI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
